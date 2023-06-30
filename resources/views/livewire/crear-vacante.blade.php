@@ -30,7 +30,7 @@
                 <option value="{{ $key }}">{{ $salario }}</option>
             @endforeach
         </select>
-        <x-input-error :messages="$errors->get('salario')"
+        <x-input-error :messages="$errors->get('salario_id', 'the salario is required')"
                        class="mt-2 border-red-500 border bg-red-100 text-red-600 font-bold uppercase p-2 mt-2 text-sm"/>
     </div>
 
@@ -48,7 +48,7 @@
                 <option value="{{ $key }}">{{ $categoria }}</option>
             @endforeach
         </select>
-        <x-input-error :messages="$errors->get('categoria')"
+        <x-input-error :messages="$errors->get('categoria_id', 'the categoria is required')"
                        class="mt-2 border-red-500 border bg-red-100 text-red-600 font-bold uppercase p-2 mt-2 text-sm"/>
     </div>
 

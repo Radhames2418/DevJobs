@@ -41,9 +41,31 @@ class CrearVacante extends Component
         'imagen'         => 'required|image|max:1024',
     ];
 
-    public function editarVacante()
+    public function crearVacante()
     {
+        $datos = $this->validate();
 
+        // Guardar la imagen
+        $imagen = $this->imagen->store('public/vacantes');
+        $nombre_imagen = str_replace('public/vacantes/', '', $imagen);
+
+        // Crear la vacante
+        Vacante::create([
+            'titulo'       => $datos['titulo'],
+            'salario_id'   => $datos['salario_id'],
+            'categoria_id' => $datos['categoria_id'],
+            'empresa'      => $datos['empresa'],
+            'ultimo_dia'   => $datos['ultimo_dia'],
+            'descripcion'  => $datos['descripcion'],
+            'imagen'       => $nombre_imagen,
+            'user_id'      => auth()->user()->id
+        ]);
+
+        // Crear un mensaje
+        session()->flash('mensaje', 'La Vacante se publicó correctamente');
+
+        // Redireccionar al usuario
+        return redirect()->route('vacantes.index');
     }
 
 

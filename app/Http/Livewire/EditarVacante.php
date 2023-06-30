@@ -19,13 +19,6 @@ class EditarVacante extends Component
     public $descripcion;
     public $imagen;
 
-    public $vacante;
-
-    public function __construct($vacante)
-    {
-        $this->vacante = $vacante;
-    }
-
 
     use WithFileUploads;
 
@@ -48,31 +41,20 @@ class EditarVacante extends Component
         'imagen'         => 'required|image|max:1024',
     ];
 
-    public function crearVacante()
+    public function editarVacante()
     {
         $datos = $this->validate();
+    }
 
-        // Guardar la imagen
-        $imagen = $this->imagen->store('public/vacantes');
-        $nombre_imagen = str_replace('public/vacantes/', '', $imagen);
-
-        // Crear la vacante
-        Vacante::create([
-            'titulo'       => $datos['titulo'],
-            'salario_id'   => $datos['salario_id'],
-            'categoria_id' => $datos['categoria_id'],
-            'empresa'      => $datos['empresa'],
-            'ultimo_dia'   => $datos['ultimo_dia'],
-            'descripcion'  => $datos['descripcion'],
-            'imagen'       => $nombre_imagen,
-            'user_id'      => auth()->user()->id
-        ]);
-
-        // Crear un mensaje
-        session()->flash('mensaje', 'La Vacante se publicó correctamente');
-
-        // Redireccionar al usuario
-        return redirect()->route('vacantes.index');
+    public function mount(Vacante $vacante)
+    {
+        $this->titulo       = $vacante->titulo;
+        $this->salario_id   = $vacante->salario_id;
+        $this->categoria_id = $vacante->categoria_id;
+        $this->empresa      = $vacante->empresa;
+        $this->ultimo_dia   = $vacante->ultimo_dia->format('Y-m-d');
+        $this->descripcion  = $vacante->descripcion;
+        $this->imagen       = $vacante->imagen;
     }
 
 
