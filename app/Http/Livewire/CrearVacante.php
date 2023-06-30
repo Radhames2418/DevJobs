@@ -6,6 +6,7 @@ use App\Models\Categoria;
 use App\Models\Salario;
 use App\Models\Vacante;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -41,15 +42,19 @@ class CrearVacante extends Component
         'imagen'         => 'required|image|max:1024',
     ];
 
+
+    /**
+     * Create a new vacancy and store it in the database
+     *
+     * @return RedirectResponse
+     */
     public function crearVacante()
     {
         $datos = $this->validate();
 
-        // Guardar la imagen
         $imagen = $this->imagen->store('public/vacantes');
         $nombre_imagen = str_replace('public/vacantes/', '', $imagen);
 
-        // Crear la vacante
         Vacante::create([
             'titulo'       => $datos['titulo'],
             'salario_id'   => $datos['salario_id'],
@@ -61,10 +66,8 @@ class CrearVacante extends Component
             'user_id'      => auth()->user()->id
         ]);
 
-        // Crear un mensaje
         session()->flash('mensaje', 'La Vacante se publicó correctamente');
 
-        // Redireccionar al usuario
         return redirect()->route('vacantes.index');
     }
 

@@ -98,23 +98,22 @@
             id="imagen"
             class="block mt-1 w-full p-2"
             type="file"
-            wire:model="imagen"
+            wire:model="imagen_nueva"
             accept="image/*"
         />
 
+
         <div class="my-5 w-80">
-            @if($imagen)
-                Imagen:
-                <img src="{{ (gettype($imagen) == 'string') ? asset("storage/vacantes/{$imagen}") : $imagen->temporaryUrl()  }}" alt="Image">
-            @endif
+            <x-input-label :value="__('Imagen Actual')"/>
+            <img src="{{ (!is_null($this->imagen_nueva)) ? $imagen_nueva->temporaryUrl() : asset("storage/vacantes/{$imagen}")  }}" alt="Image">
         </div>
 
-        <x-input-error :messages="$errors->get('imagen')"
+        <x-input-error :messages="$errors->get('imagen_nueva')"
                        class="mt-2 border-red-500 border bg-red-100 text-red-600 font-bold uppercase p-2 mt-2 text-sm"/>
     </div>
 
     <x-primary-button
     >
-        Crear Vacante
+        guardar cambios
     </x-primary-button>
 </form>

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\vacanteController;
+use App\Http\Controllers\VacanteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [vacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('vacantes.index');
-Route::get('/vacantes/create', [vacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
-Route::get('/vacantes/{vacante}/editar', [vacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes.edit');
+Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('vacantes.index');
+Route::get('/vacantes/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
+Route::get('/vacantes/{vacante}/editar', [VacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes.edit');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -10,14 +10,61 @@ use Livewire\WithFileUploads;
 
 class EditarVacante extends Component
 {
-    //Propiedades
+
+    public $vacante_id;
+    /**
+     * Represents a title.
+     *
+     * @property string $texto The text of the title.
+     */
     public $titulo;
+    /**
+     * Represents the identifier of a salary.
+     *
+     * @var int $salario_id The salary identifier.
+     */
     public $salario_id;
+    /**
+     * Retrieves the category ID.
+     *
+     * @param int $categoria_id The identifier for the category.
+     * @return int The category ID.
+     */
     public $categoria_id;
+    /**
+     * Represents a company.
+     *
+     * This class provides methods to interact with the company's information.
+     */
     public $empresa;
+    /**
+     * Calculate the last day of the given month and year.
+     *
+     * @param int $month The month value (1-12).
+     * @param int $year The year value (e.g.,
+     * 2021).
+     * @return int The last day of the month.
+     */
     public $ultimo_dia;
+    /**
+     * This function determines the description of a given code.
+     *
+     * @param string $code The code for which the description needs to be determined.
+     * @return string The description of the given code.
+     */
     public $descripcion;
+    /**
+     * Represents an Image class.
+     *
+     * This class provides methods to manipulate and process images.
+     *
+     * @package
+     * MyPackage
+     * @subpackage
+     * Image
+     */
     public $imagen;
+    public $imagen_nueva;
 
 
     use WithFileUploads;
@@ -38,23 +85,58 @@ class EditarVacante extends Component
         'empresa'        => 'required',
         'ultimo_dia'     => 'required',
         'descripcion'    => 'required',
-        'imagen'         => 'required|image|max:1024',
+        'imagen_nueva'   => 'nullable|image|max:1024'
     ];
 
     public function editarVacante()
     {
         $datos = $this->validate();
+
+        $vacante = Vacante::find($this->vacante_id);
+
+        // Guardar la imagen
+        if (!is_null($this->imagen_nueva))
+        {
+            $imagen = $this->imagen_nueva->store('public/vacantes');
+            $nombre_imagen = str_replace('public/vacantes/', '', $imagen);
+        }
+
+
+        $fillValues = [
+            'titulo'        =>  $datos['titulo'],
+            'salario_id'    =>  $datos['salario_id'],
+            'categoria_id'  =>  $datos['categoria_id'],
+            'empresa'       =>  $datos['empresa'],
+            'ultimo_dia'    =>  $datos['ultimo_dia'],
+            'descripcion'   =>  $datos['descripcion'],
+            'imagen'        =>  $this->imagen_nueva ? $nombre_imagen : $this->imagen
+        ];
+
+        $vacante->fill($fillValues);
+
+        $vacante->save();
+
+        session()->flash('mensaje', 'La Vacante se actualizó correctamente');
+
+        return redirect()->route('vacantes.index');
     }
 
+    /**
+     * Mounts the properties of a Vacante object into the current object.
+     *
+     * @param Vacante $vacante The Vacante object with the properties to be mounted.
+     * @return void
+     */
     public function mount(Vacante $vacante)
     {
-        $this->titulo       = $vacante->titulo;
-        $this->salario_id   = $vacante->salario_id;
-        $this->categoria_id = $vacante->categoria_id;
-        $this->empresa      = $vacante->empresa;
-        $this->ultimo_dia   = $vacante->ultimo_dia->format('Y-m-d');
-        $this->descripcion  = $vacante->descripcion;
-        $this->imagen       = $vacante->imagen;
+        $this->vacante_id    =  $vacante->id;
+        $this->titulo        =  $vacante->titulo;
+        $this->salario_id    =  $vacante->salario_id;
+        $this->categoria_id  =  $vacante->categoria_id;
+        $this->empresa       =  $vacante->empresa;
+        $this->ultimo_dia    =  $vacante->ultimo_dia->format('Y-m-d');
+        $this->descripcion   =  $vacante->descripcion;
+        $this->imagen        =  $vacante->imagen;
     }
 
 
