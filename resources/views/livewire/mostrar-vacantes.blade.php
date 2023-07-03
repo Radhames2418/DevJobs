@@ -7,7 +7,7 @@
         @forelse($vacantes as $vacante)
             <div class="p-6 text-gray-900 border-b dark:text-gray-100 md:flex md:items-center md:justify-between">
                 <div class="leading-10">
-                    <a class="text-xl font-bold" href="">
+                    <a class="text-xl font-bold" href="{{ route('vacantes.show', $vacante) }}">
                         {{ $vacante->titulo }}
                     </a>
                     <p class="text-sm text-gray-600 font-bold">
@@ -64,7 +64,6 @@
                 if (result.isConfirmed) {
 
                     // Eliminar la vacante del servidor
-
                     Livewire.emit('eliminarVacante', VacanteId);
 
                     Swal.fire(

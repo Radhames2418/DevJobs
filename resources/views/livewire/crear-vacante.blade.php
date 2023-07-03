@@ -30,7 +30,7 @@
                 <option value="{{ $key }}">{{ $salario }}</option>
             @endforeach
         </select>
-        <x-input-error :messages="$errors->get('salario_id', 'the salario is required')"
+        <x-input-error :messages="$errors->get('salario_id')"
                        class="mt-2 border-red-500 border bg-red-100 text-red-600 font-bold uppercase p-2 mt-2 text-sm"/>
     </div>
 
@@ -118,3 +118,4 @@
         Crear Vacante
     </x-primary-button>
 </form>
+
