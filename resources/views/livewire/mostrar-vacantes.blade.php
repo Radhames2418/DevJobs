@@ -31,7 +31,7 @@
                     </a>
 
                     <button
-                            wire:click="$emit('eliminarVacante', {{ $vacante->id }})"
+                            wire:click="$emit('mostrarAlerta', {{ $vacante->id }})"
                             class="bg-red-600 py-2 px-4 rounded-lg text-white text-sm  font-bold text-center">
                         Eliminar
                     </button>
@@ -51,7 +51,7 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        Livewire.on('eliminarVacante', function (VacanteId) {
+        Livewire.on('mostrarAlerta', function (VacanteId) {
             Swal.fire({
                 title: 'Estas seguro?',
                 text: "No se podra revertir los cambios!",
