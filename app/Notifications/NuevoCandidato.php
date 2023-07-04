@@ -41,14 +41,13 @@ class NuevoCandidato extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
+     * Saves the notifiable object to the database.
      *
-     * @return array<string, mixed>
+     * @param object $notifiable The object to be saved to the database.
+     * @return void
      */
-    public function toArray(object $notifiable): array
+    public function toDatabase(object $notifiable)
     {
-        return [
-            //
-        ];
+
     }
 }
