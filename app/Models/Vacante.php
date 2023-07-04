@@ -54,7 +54,7 @@ class Vacante extends Model
      *
      * @return HasMany
      */
-    public function candidatos()
+    public function candidatos(): hasMany
     {
         return $this->hasMany(Candidato::class);
     }
