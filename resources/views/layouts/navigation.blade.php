@@ -11,7 +11,7 @@
                 </div>
 
 
-                @auth
+                @can('create', \App\Models\Vacante::class)
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-nav-link :href="route('vacantes.index')" :active="request()->routeIs('vacantes.index')">
@@ -22,12 +22,20 @@
                             {{ __('Crear Vacantes') }}
                         </x-nav-link>
                     </div>
-                @endauth
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
+
+                    @if(auth()->user()->rol === 2)
+                        <a class=" w-7 h-7 bg-slate-600 hover:bg-slate-800 rounded-full flex items-center justify-center text-white font-bold" href="{{ route('notificaciones') }}">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </a>
+                    @endif
+
+
                     <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -91,7 +99,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @auth
+            @can('create', \App\Models\Vacante::class)
                 <x-responsive-nav-link :href="route('vacantes.index')" :active="request()->routeIs('vacantes.index')">
                     {{ __('Mis vacantes') }}
                 </x-responsive-nav-link>
@@ -99,7 +107,18 @@
                 <x-responsive-nav-link :href="route('vacantes.create')" :active="request()->routeIs('vacantes.create')">
                     {{ __('Crear vacantes') }}
                 </x-responsive-nav-link>
-            @endauth
+
+                @if(auth()->user()->rol === 2)
+                    <div class="flex gap-2 items-center p-3">
+                        <a class=" w-7 h-7 bg-slate-600 hover:bg-slate-800 rounded-full flex items-center justify-center text-white font-bold" href="{{ route('notificaciones') }}">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </a>
+                        <p>
+                            @choice('Notification|Notificaciones', auth()->user()->unreadNotifications->count())
+                        </p>
+                    </div>
+                @endif
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

@@ -24,7 +24,7 @@
     </div>
 
     @guest
-        <div class="mt-5 bg-gray-50 border-dashed p-5 text-center">
+        <div class="mt-5 bg-graya-50 border-dashed p-5 text-center">
             <p>
                 ¿Deseas Aplicar a esta vacante? <a class="font-bold text-gray-900" href="{{ route('register') }}">Obten una cuenta y aplica a esta y otras vacantes</a>
             </p>
